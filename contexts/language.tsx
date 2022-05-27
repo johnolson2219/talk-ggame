@@ -1,19 +1,19 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useLayoutEffect, useState } from 'react'
 import type { Language } from '../assets/languages/language'
+import type { ContextProviderProps } from './context'
 
 import { en, es } from '../assets/languages'
 
 interface LanguageContextValue {
   lang: Language
-  toggleLang: (lang: 'es' | 'en') => void
-}
-
-interface ContextProviderProps {
-  children: JSX.Element
+  toggleLang: (forcedLang?: 'es' | 'en' | false) => void
 }
 
 interface LanguageContextProviderState {
-  lang: Language
+  lang: {
+    selected: 'es' | 'en' | 'none'
+    lang: Language | null
+  }
 }
 
 const LanguageContext = createContext<LanguageContextValue>({
@@ -22,18 +22,27 @@ const LanguageContext = createContext<LanguageContextValue>({
 })
 
 function LanguageContextProvider({ children }: ContextProviderProps) {
-  const [lang, setLang] = useState<LanguageContextProviderState['lang']>(en)
+  const [lang, setLang] = useState<LanguageContextProviderState['lang']>({
+    selected: 'none',
+    lang: null,
+  })
 
-  function toggleLang(lang: 'es' | 'en') {
-    lang === 'es' ? setLang(es) : setLang(en)
+  function toggleLang(forcedLang: 'es' | 'en' | false = false) {
+    if (forcedLang === 'es') return setLang({ selected: 'es', lang: es })
+    if (forcedLang === 'en') return setLang({ selected: 'en', lang: en })
+
+    lang.selected === 'en' && setLang({ selected: 'es', lang: es })
+    lang.selected === 'es' && setLang({ selected: 'en', lang: en })
   }
 
-  useEffect(() => {
-    navigator.language.includes('es') && setLang(es)
+  useLayoutEffect(() => {
+    navigator.language.includes('es') ? toggleLang('es') : toggleLang('en')
   }, [])
 
+  if (!lang.lang) return null
+
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang }}>
+    <LanguageContext.Provider value={{ lang: lang.lang, toggleLang }}>
       {children}
     </LanguageContext.Provider>
   )
