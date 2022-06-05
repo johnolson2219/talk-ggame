@@ -8,6 +8,7 @@ import { en, es } from '../assets/languages'
 type LanguageSelected = 'es' | 'en'
 
 interface LanguageContextValue {
+  selectedLang: LanguageSelected
   lang: Language
   toggleLang: (forcedLang?: LanguageSelected | false) => void
 }
@@ -18,12 +19,13 @@ interface LanguageContextProviderProps extends ContextProviderProps {
 
 interface LanguageContextProviderState {
   lang: {
-    selected: LanguageSelected | 'default'
+    selected: LanguageSelected
     lang: Language
   }
 }
 
 const LanguageContext = createContext<LanguageContextValue>({
+  selectedLang: 'en',
   lang: en,
   toggleLang: () => {},
 })
@@ -33,7 +35,7 @@ function LanguageContextProvider({
   initial,
 }: LanguageContextProviderProps) {
   const [lang, setLang] = useState<LanguageContextProviderState['lang']>({
-    selected: initial || 'default',
+    selected: initial || 'en',
     lang: initial === 'es' ? es : en,
   })
 
@@ -44,32 +46,36 @@ function LanguageContextProvider({
 
   function toggleLang(forcedLang: LanguageSelected | false = false) {
     if (forcedLang) {
-      forcedLang === 'es'
-        ? setLang({ selected: 'es', lang: es })
-        : setLang({ selected: 'en', lang: en })
+      if (forcedLang !== lang.selected) {
+        forcedLang === 'es'
+          ? setLang({ selected: 'es', lang: es })
+          : setLang({ selected: 'en', lang: en })
+      }
 
       setCookie(forcedLang)
     }
 
-    const isDefault = lang.selected === 'default'
     const isEnglish = lang.selected === 'en'
+    const isSpanish = lang.selected === 'es'
 
     if (isEnglish) {
       setLang({ selected: 'es', lang: es })
       setCookie('es')
-    } else if (!isDefault && !isEnglish) {
+    } else if (isSpanish) {
       setLang({ selected: 'en', lang: en })
       setCookie('en')
     }
   }
 
   useEffect(() => {
-    if (lang.selected !== 'default') return
+    if (initial) return
     navigator.language.includes('es') && toggleLang('es')
   }, [])
 
   return (
-    <LanguageContext.Provider value={{ lang: lang.lang, toggleLang }}>
+    <LanguageContext.Provider
+      value={{ selectedLang: lang.selected, lang: lang.lang, toggleLang }}
+    >
       {children}
     </LanguageContext.Provider>
   )
