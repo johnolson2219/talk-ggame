@@ -1,0 +1,52 @@
+.inputWrapper {
+  position: relative;
+  width: max(70%, 296px);
+  margin-inline: auto;
+}
+
+.label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-inline: 3px;
+  text-align: left;
+  color: var(--contrast);
+  transform: translate(calc(2em), calc(2em + 3px));
+  transition: transform 0.25s, font-size 0.2s 0.1s, background-color 0.2s 0.1s;
+  pointer-events: none;
+}
+
+.input {
+  margin-top: 1em;
+  padding: 1em 2em;
+  background-color: transparent;
+  border: none;
+  border: 3px solid var(--gray);
+  border-radius: 4px;
+  outline: none;
+  color: inherit;
+  transition: border-color 0.4s;
+}
+
+.input:valid + label {
+  color: var(--success);
+}
+
+.input,
+.input::placeholder {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.input:hover,
+.input:focus {
+  border-bottom: 3px solid var(--primary);
+}
+
+.input:focus + .label,
+.activeLabel {
+  background-color: var(--background);
+  font-size: 14px;
+  transform: translate(1em, 4.5px);
+}
