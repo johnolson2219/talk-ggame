@@ -1,0 +1,50 @@
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: max(248px, 100%);
+  height: 56px;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--thirdy);
+}
+
+.textValue {
+  color: var(--gray);
+}
+
+.menu {
+  z-index: 90;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 2px 4px;
+  background-color: var(--secondary);
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(-30px);
+  pointer-events: none;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in;
+}
+
+.menuOpen {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: initial;
+}
+
+.option {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.option:hover {
+  background-color: var(--thirdy);
+}
