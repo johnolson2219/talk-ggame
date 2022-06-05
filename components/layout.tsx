@@ -22,7 +22,7 @@ function Layout({ children, title, replaceTitle = false }: LayoutProps) {
         <link rel='icon' href='/favicon.ico' />
         <meta name='description' content='This is the GGame description' />
       </Head>
-      <div>{children}</div>
+      {children}
     </>
   )
 }
