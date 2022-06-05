@@ -9,13 +9,18 @@ interface UseThemeProps {
 }
 
 interface UseThemeState {
-  theme?: Theme | null
+  theme: Theme
 }
 
 function useTheme({ reference, initial, afterSelect }: UseThemeProps) {
-  const [theme, setTheme] = useState<UseThemeState['theme']>(initial || 'auto')
+  const [theme, setTheme] = useState<UseThemeState['theme']>(
+    initial || {
+      type: 'light',
+      isAuto: true,
+    }
+  )
 
-  function selectTheme(theme: Theme, execAfterSelect = false) {
+  function selectTheme(themeSelected: Theme, execAfterSelect = true) {
     let counter = 1000
 
     while (counter > 0) {
@@ -24,25 +29,34 @@ function useTheme({ reference, initial, afterSelect }: UseThemeProps) {
         continue
       }
 
-      reference.current.dataset.theme = theme
-      execAfterSelect && afterSelect && afterSelect(theme)
-      setTheme(theme)
+      reference.current.dataset.theme = themeSelected.type
+      execAfterSelect && afterSelect && afterSelect(themeSelected)
+
+      if (
+        themeSelected.type !== theme.type ||
+        themeSelected.isAuto !== theme.isAuto
+      )
+        setTheme(themeSelected)
       break
     }
   }
 
   useLayoutEffect(() => {
-    if (initial) {
-      selectTheme(initial, true)
+    if (!theme.isAuto) {
+      selectTheme(theme)
       return
     }
 
     const matchDark = matchMedia('(prefers-color-scheme: dark)')
-    matchDark.matches ? selectTheme('dark') : selectTheme('light')
+    matchDark.matches
+      ? selectTheme({ type: 'dark', isAuto: true })
+      : selectTheme({ type: 'light', isAuto: true })
 
     function changeHandler(event: MediaQueryListEvent) {
       if (!reference.current) return
-      event.matches ? selectTheme('dark') : selectTheme('light')
+      event.matches
+        ? selectTheme({ type: 'dark', isAuto: true })
+        : selectTheme({ type: 'light', isAuto: true })
     }
 
     matchMedia('(prefers-color-scheme: dark)').addEventListener(
@@ -54,7 +68,7 @@ function useTheme({ reference, initial, afterSelect }: UseThemeProps) {
         'change',
         changeHandler
       )
-  }, [])
+  }, [theme.isAuto])
 
   return { contentRef: reference, theme, selectTheme }
 }

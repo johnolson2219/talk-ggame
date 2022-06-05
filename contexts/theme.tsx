@@ -4,9 +4,10 @@ import type { ContextProviderProps } from './context'
 
 import { useTheme } from '../hooks/useTheme'
 
-type Theme = 'dark' | 'light' | 'auto'
+type Theme = { type?: 'dark' | 'light'; isAuto: boolean }
 
 interface ThemeContextValue {
+  theme?: Theme | null
   contentRef?: RefObject<HTMLDivElement>
   selectTheme: (theme: Theme) => void
 }
@@ -25,18 +26,17 @@ function ThemeContextProvider({
   reference,
   initial,
 }: ThemeContextProviderProps) {
-  const { contentRef, selectTheme } = useTheme({
+  const { theme, contentRef, selectTheme } = useTheme({
     reference,
     initial,
     afterSelect: (theme) => {
       if (typeof window === 'undefined') return
-      console.log('theme after toggle')
-      cookie.set('theme', theme)
+      cookie.set('theme', JSON.stringify(theme))
     },
   })
 
   return (
-    <ThemeContext.Provider value={{ contentRef, selectTheme }}>
+    <ThemeContext.Provider value={{ theme, contentRef, selectTheme }}>
       {children}
     </ThemeContext.Provider>
   )
