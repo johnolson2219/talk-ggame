@@ -5,9 +5,17 @@ const en: Language = {
     login: 'Sign in',
     usernameLabel: 'Username',
     passwordLabel: 'Password',
-    usernamePlaceholder: 'John_Doe',
-    passwordPlaceholder: 'myPassword123',
     submit: 'Login',
+    loadingText: 'Loading...',
+    messageUserError: 'User not found.',
+    messagePasswordError: 'Wrong password.',
+  },
+  registerPage: {
+    singup: 'Sing up',
+    usernameLabel: 'Username',
+    passwordLabel: 'Password',
+    submit: 'Create Account',
+    loadingText: 'Loading...',
   },
 }
 
