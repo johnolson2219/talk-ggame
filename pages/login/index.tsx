@@ -10,16 +10,11 @@ import {
   LanguageContext,
   type LanguageContextValue,
 } from '../../contexts/language'
+import { serveCookies } from '../../utils/serveCookies'
 
 const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  console.log(req.cookies)
-
-  return {
-    props: {
-      theme: req.cookies.theme || null,
-      language: req.cookies.language || null,
-    },
-  }
+  const { props } = serveCookies(req)
+  return { props: { ...props } }
 }
 
 const Login: NextPage = () => {
