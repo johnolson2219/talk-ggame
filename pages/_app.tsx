@@ -11,10 +11,10 @@ function App({ Component, pageProps }: AppProps) {
   const contentRef = useRef(null)
 
   return (
-    <LanguageContextProvider initial={pageProps?.language}>
+    <LanguageContextProvider initial={pageProps.language}>
       <ThemeContextProvider
         reference={contentRef}
-        initial={JSON.parse(pageProps?.theme)}
+        initial={JSON.parse(pageProps.theme || null)}
       >
         <div className={appStyles.App} ref={contentRef}>
           <Toolbar />
