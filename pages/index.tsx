@@ -4,8 +4,7 @@ import Layout from '../components/layout'
 import { serveCookies } from '../utils/serveCookies'
 
 const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { props } = serveCookies(req)
-  return { props: { ...props } }
+  return { props: { ...serveCookies(req) } }
 }
 
 const Home: NextPage = () => {
