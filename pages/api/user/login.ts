@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
 import { getUser } from '../../../services/database'
 import { manageMethod } from '../../../utils/manageMethod'
+import { withSessionRoute } from '../../../utils/withSession'
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const { username, password } = req.body
@@ -28,11 +29,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     const validatePassword = await bcrypt.compare(password, user.password)
 
     if (validatePassword) {
+      const userData = { id: user.id, username: user.username, rol: user.rol }
+
+      req.session.user = userData
+      await req.session.save()
       sendResponse({
         status: 200,
         error: false,
         message: 'Success.',
-        data: { id: user.id, username: user.username, rol: user.rol },
+        data: userData,
       })
     } else {
       sendResponse({ status: 400, error: true, message: 'Not allowed.' })
@@ -42,4 +47,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     throw error
   }
 }
-export default handler
+
+export default withSessionRoute(handler)
