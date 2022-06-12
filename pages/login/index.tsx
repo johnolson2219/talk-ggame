@@ -62,7 +62,7 @@ const Login: NextPage = () => {
           utilStyles.flexColumnCenter
         )}
       >
-        <h2 className={utilStyles.h3}>{lang.loginPage.login}</h2>
+        <h2 className={utilStyles.h2}>{lang.loginPage.login}</h2>
         <Form
           usernameLabel={lang.loginPage.usernameLabel}
           passwordLabel={lang.loginPage.passwordLabel}
