@@ -50,9 +50,11 @@ function LanguageContextProvider({
         forcedLang === 'es'
           ? setLang({ selected: 'es', lang: es })
           : setLang({ selected: 'en', lang: en })
+
+        setCookie(forcedLang)
       }
 
-      setCookie(forcedLang)
+      return
     }
 
     const isEnglish = lang.selected === 'en'

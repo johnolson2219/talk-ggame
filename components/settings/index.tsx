@@ -48,7 +48,9 @@ function Settings() {
           text='Language'
           values={['English', 'Spanish']}
           value={selectedLang === 'en' ? 'English' : 'Spanish'}
-          onClickOption={() => toggleLang()}
+          onClickOption={(target) =>
+            toggleLang(target === 'Spanish' ? 'es' : 'en')
+          }
         />
       </li>
     </>
