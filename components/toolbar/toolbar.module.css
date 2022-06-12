@@ -31,12 +31,12 @@
 }
 
 .icon:hover {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   transform: rotate(45deg);
 }
 
 .icon.iconActive {
-  background-color: var(--secondary);
+  background-color: var(--primary);
   transform: rotate(200deg);
 }
 
@@ -46,9 +46,9 @@
   padding: 72px 8px 32px;
   background: linear-gradient(
     to bottom,
-    var(--secondary) 48px,
     var(--primary) 48px,
-    var(--primary)
+    var(--secondary) 48px,
+    var(--secondary)
   );
   clip-path: circle(0 at 0 0);
   border-radius: 0 0 4px 0;

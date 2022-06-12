@@ -1,38 +1,43 @@
 :root {
-  --dark-background: #0e1116;
   --black: #131516;
   --black-75: #4e4f50;
   --black-50: #898a8a;
   --black-25: #c4c4c5;
   --black-10: #e7e7e8;
   --black-5: #f3f3f3;
-  --blue-1: #404bdb;
-  --blue-2: #4379e6;
-  --blue-3: #4697ce;
-  --blue-4: #43cfe6;
-  --blue-5: #40dbc6;
-  --violet: #7d24bc;
-  --gray: #33444f;
+  --light-blue-1: #4379e6;
+  --light-blue-2: #4697ce;
+  --light-blue-3: #43cfe6;
+  --light-blue-4: #40dbc6;
+  --blue-dark-1: #0e1116;
+  --blue-dark-2: #111e33;
+  --blue-gray: #404d63;
   --green: #76c893;
   --red: #ff595e;
+  --blue: #404bdb;
+  --blue-1: #223b63;
+  --blue-2: #5da2b6;
+  --violet: #7d24bc;
+  --gray: #33444f;
 }
 
 [data-theme='light'] {
-  --primary: var(--blue-3);
-  --secondary: var(--violet);
+  --primary: var(--violet);
+  --secondary: var(--blue-2);
+  --thirdy: var(--blue);
   --background: var(--black-5);
-  --contrast: var(--black);
-  --text-color: var(--black);
+  --contrast: var(--black-50);
+  --text-color: var(--black-75);
   --success: var(--green);
   --error: var(--red);
 }
 
 [data-theme='dark'] {
-  --primary: var(--blue-3);
-  --secondary: var(--blue-1);
-  --thirdy: var(--blue-2);
-  --background: var(--dark-background);
-  --contrast: var(--black-10);
+  --primary: var(--blue-2);
+  --secondary: var(--blue-gray);
+  --thirdy: var(--blue-1);
+  --background: var(--blue-dark-1);
+  --contrast: var(--black-5);
   --text-color: var(--black-10);
   --success: var(--green);
   --error: var(--red);

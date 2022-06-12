@@ -46,5 +46,5 @@
 
 .button.buttonActive .switch::before {
   transform: translateX(20px);
-  background-color: var(--secondary);
+  background-color: var(--primary);
 }
