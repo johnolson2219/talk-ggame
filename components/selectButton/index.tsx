@@ -7,7 +7,7 @@ interface SelectButtonProps {
   text: string
   values: string[]
   value?: string
-  initialValue: string
+  initialValue?: string
   disabled?: boolean
   onClickSelect?: (event: MouseEvent<HTMLElement | HTMLButtonElement>) => void
   onClickOption?: (
@@ -34,7 +34,7 @@ function SelectButton({
 }: SelectButtonProps) {
   const [menu, setMenu] = useState<SwitchButtonState['menu']>({
     open: false,
-    value: initialValue,
+    value: initialValue || value || '',
   })
 
   function handleClickSelect(

@@ -33,7 +33,6 @@ function Settings() {
         <SelectButton
           text='Theme'
           values={['Dark', 'Light']}
-          initialValue=''
           value={capitalize(theme?.type || '')}
           disabled={theme?.isAuto}
           onClickOption={(target) => {
@@ -48,7 +47,6 @@ function Settings() {
         <SelectButton
           text='Language'
           values={['English', 'Spanish']}
-          initialValue=''
           value={selectedLang === 'en' ? 'English' : 'Spanish'}
           onClickOption={() => toggleLang()}
         />
