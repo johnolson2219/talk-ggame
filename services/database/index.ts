@@ -21,6 +21,12 @@ interface DeleteUserProps {
   username: string
 }
 
+function getAllUsers() {
+  return User.findAll({
+    attributes: ['username'],
+  })
+}
+
 function getUser({ username }: GetUserProps) {
   return User.findOne({
     where: {
@@ -34,8 +40,6 @@ async function createUser({
   password,
   rol = 'user',
 }: CreateUserProps) {
-  // * This line below drop the existed table and create his own. Useness for reset the id autoincrement.
-  // await User.sync({ force: true })
   return User.create({ username, password, rol })
 }
 
@@ -57,4 +61,6 @@ async function deleteUser({ username }: DeleteUserProps) {
   user.destroy()
 }
 
-export { getUser, createUser, updateUser, deleteUser }
+User.sync()
+
+export { getAllUsers, getUser, createUser, updateUser, deleteUser }
