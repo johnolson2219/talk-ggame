@@ -1,7 +1,7 @@
 import React from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 
-import { serveCookies } from '../../utils/serveCookies'
+import { serveCookies } from '../../../utils/serveCookies'
 
 // TODO: Connect user session with iron-session and pass the props
 const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
