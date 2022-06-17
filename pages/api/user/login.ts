@@ -4,7 +4,7 @@ import { getUser } from '../../../services/database'
 import { manageMethod } from '../../../utils/manageMethod'
 import { withSessionRoute } from '../../../utils/withSession'
 
-async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = req.body
 
   const { sendResponse, sendInternalError, badRequest } = manageMethod({
