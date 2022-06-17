@@ -7,7 +7,7 @@ import appStyles from '../styles/app.module.css'
 import '../styles/globals.css'
 import '../styles/themes.css'
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps, router }: AppProps) {
   const contentRef = useRef(null)
 
   return (
@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
         initial={JSON.parse(pageProps.theme || null)}
       >
         <div className={appStyles.App} ref={contentRef}>
-          <Toolbar />
+          {!/^\/(api|_error)/.test(router.pathname) && <Toolbar />}
           <Component {...pageProps} />
         </div>
       </ThemeContextProvider>
