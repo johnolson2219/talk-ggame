@@ -1,16 +1,29 @@
-import { useContext } from 'react'
+import { type ChangeEvent, useContext, useState, type FormEvent } from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import cn from 'classnames'
 import Layout from '../../components/layout'
-import Form, { type HandleSubmitProps } from '../../components/form'
-import styles from './login.module.css'
+import Input from '../../components/input'
+import Button from '../../components/button'
 import utilStyles from '../../styles/utils.module.css'
+import styles from './login.module.css'
 
 import {
   LanguageContext,
   type LanguageContextValue,
 } from '../../contexts/language'
 import { serveCookies } from '../../utils/serveCookies'
+
+interface FormState {
+  form: { username: string; password: string }
+  process:
+    | {
+        state: 'stale' | 'pending' | 'success'
+      }
+    | {
+        state: 'error'
+        message: string
+      }
+}
 
 const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { ...serveCookies(req) } }
@@ -19,14 +32,24 @@ const getServerSideProps: GetServerSideProps = async ({ req }) => {
 const Login: NextPage = () => {
   const { lang }: LanguageContextValue = useContext(LanguageContext)
 
-  async function handleSubmit({ event, form, setProcess }: HandleSubmitProps) {
-    event.preventDefault()
+  const [form, setForm] = useState<FormState['form']>({
+    username: '',
+    password: '',
+  })
+  const [process, setProcess] = useState<FormState['process']>({
+    state: 'stale',
+  })
 
-    const { origin } = window.location
+  function handleInput({ target }: ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [target.name]: target.value })
+  }
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
 
     try {
       setProcess({ state: 'pending' })
-      const res = await fetch(origin + '/api/user/login', {
+      const res = await fetch('/api/user/login', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -45,7 +68,7 @@ const Login: NextPage = () => {
             ? lang.loginPage.messagePasswordError
             : error.message === 'User not found in the database.'
             ? lang.loginPage.messageUserError
-            : 'Error'
+            : 'Internal Error'
         setProcess({ state: 'error', message })
       } else {
         console.warn(error)
@@ -63,13 +86,36 @@ const Login: NextPage = () => {
         )}
       >
         <h2 className={utilStyles.h2}>{lang.loginPage.login}</h2>
-        <Form
-          usernameLabel={lang.loginPage.usernameLabel}
-          passwordLabel={lang.loginPage.passwordLabel}
-          submitText={lang.loginPage.submit}
-          pendingText={lang.loginPage.loadingText}
-          handleSubmit={handleSubmit}
-        />
+        <form autoComplete='off' onSubmit={handleSubmit}>
+          <Input
+            id='username'
+            name='username'
+            value={form.username}
+            label={lang.loginPage.usernameLabel}
+            required
+            onChange={handleInput}
+          />
+          <Input
+            id='password'
+            name='password'
+            value={form.password}
+            label={lang.loginPage.passwordLabel}
+            type='password'
+            required
+            onChange={handleInput}
+          />
+          <Button
+            newClass={utilStyles.h6}
+            disabled={process.state === 'pending'}
+            type='submit'
+          >
+            {lang.loginPage.submit}
+          </Button>
+          {process.state === 'error' && (
+            <p className={utilStyles.textError}>{process.message}</p>
+          )}
+          {process.state === 'pending' && <p>{lang.loginPage.loadingText}</p>}
+        </form>
       </div>
     </Layout>
   )
