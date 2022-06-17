@@ -4,24 +4,24 @@ import { createUser, getUser } from '../../../services/database'
 import { manageMethod } from '../../../utils/manageMethod'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { username, password, rol } = req.body
+  const { username, password, role } = req.body
 
   const { badRequest, sendInternalError, sendResponse } = manageMethod({
     method: 'POST',
     res,
     req,
-    isBodyOk: Boolean(username && password && rol),
+    isBodyOk: Boolean(username && password && role),
   })
 
   if (badRequest || !sendResponse || !sendInternalError) return
 
   try {
-    const isAllowedRole = !['admin', 'user'].includes(rol)
+    const isAllowedRole = !['admin', 'user'].includes(role)
     if (isAllowedRole)
       return sendResponse({
         status: 400,
         error: true,
-        message: 'Wrong rol. Allowed are admin or user.',
+        message: 'Wrong role. Allowed are admin or user.',
       })
 
     const isRepeatedUser = Boolean(await getUser({ username }))
@@ -37,7 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const user = await createUser({
       username,
       password: hashedPassword,
-      rol,
+      role,
     })
     sendResponse({
       status: 201,
@@ -46,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       data: {
         id: user.id,
         username: user.username,
-        rol: user.rol,
+        role: user.role,
       },
     })
   } catch (error) {

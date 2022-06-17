@@ -7,14 +7,14 @@ interface GetUserProps {
 interface CreateUserProps {
   username: string
   password: string
-  rol?: 'admin' | 'user'
+  role?: 'admin' | 'user'
 }
 
 interface UpdateUserProps {
   key: string
   username?: string
   password?: string
-  rol?: 'admin' | 'user'
+  role?: 'admin' | 'user'
 }
 
 interface DeleteUserProps {
@@ -38,18 +38,18 @@ function getUser({ username }: GetUserProps) {
 async function createUser({
   username,
   password,
-  rol = 'user',
+  role = 'user',
 }: CreateUserProps) {
-  return User.create({ username, password, rol })
+  return User.create({ username, password, role })
 }
 
-async function updateUser({ key, username, password, rol }: UpdateUserProps) {
+async function updateUser({ key, username, password, role }: UpdateUserProps) {
   const user = await getUser({ username: key })
   if (!user) return null
 
   username && user.username
   password && user.password
-  rol && user.rol
+  role && user.role
 
   user.save()
 }

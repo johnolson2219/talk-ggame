@@ -34,7 +34,7 @@ declare module 'iron-session' {
     user?: {
       id: number
       username: string
-      rol?: 'admin' | 'user'
+      role?: 'admin' | 'user'
     }
   }
 }

@@ -11,7 +11,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>
   declare username: string
   declare password: string
-  declare rol: CreationOptional<'admin' | 'user'>
+  declare role: CreationOptional<'admin' | 'user'>
 }
 
 User.init(
@@ -30,7 +30,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    rol: {
+    role: {
       type: DataTypes.STRING(10),
       defaultValue: 'user',
     },

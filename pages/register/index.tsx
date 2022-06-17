@@ -20,7 +20,7 @@ import {
 import { serveCookies } from '../../utils/serveCookies'
 
 interface FormState {
-  form: { username: string; password: string; rol: 'admin' | 'user' }
+  form: { username: string; password: string; role: 'admin' | 'user' }
   process:
     | {
         state: 'stale' | 'pending' | 'success'
@@ -38,7 +38,7 @@ const Register: NextPage = () => {
   const [form, setForm] = useState<FormState['form']>({
     username: '',
     password: '',
-    rol: 'user',
+    role: 'user',
   })
   const [process, setProcess] = useState<FormState['process']>({
     state: 'stale',
@@ -104,7 +104,7 @@ const Register: NextPage = () => {
         body: JSON.stringify({
           username: form.username,
           password: form.password,
-          rol: form.rol,
+          role: form.role,
         }),
       })
       const data = await res.json()

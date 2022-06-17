@@ -29,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const validatePassword = await bcrypt.compare(password, user.password)
 
     if (validatePassword) {
-      const userData = { id: user.id, username: user.username, rol: user.rol }
+      const userData = { id: user.id, username: user.username, role: user.role }
 
       req.session.user = userData
       await req.session.save()
