@@ -9,7 +9,7 @@ interface InputProps extends ComponentProps<'input'> {
   value: string
 }
 
-function Input({ id, label, value, ...props }: InputProps) {
+function Input({ children, id, label, value, ...props }: InputProps) {
   return (
     <div className={cn(styles.inputWrapper, utilStyles.flexColumnCenter)}>
       <input className={styles.input} id={id} value={value} {...props} />
@@ -21,6 +21,7 @@ function Input({ id, label, value, ...props }: InputProps) {
           {label}
         </label>
       )}
+      {children}
     </div>
   )
 }
