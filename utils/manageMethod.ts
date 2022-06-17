@@ -44,9 +44,9 @@ function manageMethod({
 
   if (req.method !== method) {
     sendResponse({
-      status: 204,
+      status: 405,
       error: true,
-      message: `No content. Use method ${method} instead.`,
+      message: `Use method ${method} instead.`,
     })
     return { badRequest: true }
   }
