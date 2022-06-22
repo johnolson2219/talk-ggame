@@ -1,4 +1,13 @@
 interface Language {
+  settings: {
+    readonly themeAuto: string
+    readonly theme: string
+    readonly themeDark: string
+    readonly themeLight: string
+    readonly language: string
+    readonly languageEnglish: string
+    readonly languageSpanish: string
+  }
   loginPage: {
     readonly login: string
     readonly usernameLabel: string

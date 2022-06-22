@@ -15,14 +15,14 @@ function themeAllowed(theme: string): theme is 'dark' | 'light' {
 
 function Settings() {
   const { theme, selectTheme }: ThemeContextValue = useContext(ThemeContext)
-  const { selectedLang, toggleLang }: LanguageContextValue =
+  const { lang, selectedLang, toggleLang }: LanguageContextValue =
     useContext(LanguageContext)
 
   return (
     <>
       <li>
         <SwitchButton
-          text='Auto theme:'
+          text={lang.settings.themeAuto}
           initialValue={theme?.isAuto}
           onClick={(active) =>
             selectTheme({ type: theme?.type, isAuto: !active })
@@ -31,12 +31,19 @@ function Settings() {
       </li>
       <li>
         <SelectButton
-          text='Theme'
-          values={['Dark', 'Light']}
-          value={capitalize(theme?.type || '')}
+          text={lang.settings.theme}
+          values={[lang.settings.themeDark, lang.settings.themeLight]}
+          value={capitalize(
+            theme
+              ? theme.type === 'dark'
+                ? lang.settings.themeDark
+                : lang.settings.themeLight
+              : ''
+          )}
           disabled={theme?.isAuto}
           onClickOption={(target) => {
-            const themeTarget = target.toLowerCase()
+            const themeTarget =
+              target === lang.settings.themeDark ? 'dark' : 'light'
             if (themeTarget === theme?.type) return
             themeAllowed(themeTarget) &&
               selectTheme({ type: themeTarget, isAuto: false })
@@ -45,11 +52,18 @@ function Settings() {
       </li>
       <li>
         <SelectButton
-          text='Language'
-          values={['English', 'Spanish']}
-          value={selectedLang === 'en' ? 'English' : 'Spanish'}
+          text={lang.settings.language}
+          values={[
+            lang.settings.languageSpanish,
+            lang.settings.languageEnglish,
+          ]}
+          value={
+            selectedLang === 'en'
+              ? lang.settings.languageEnglish
+              : lang.settings.languageSpanish
+          }
           onClickOption={(target) =>
-            toggleLang(target === 'Spanish' ? 'es' : 'en')
+            toggleLang(target === lang.settings.languageSpanish ? 'es' : 'en')
           }
         />
       </li>
